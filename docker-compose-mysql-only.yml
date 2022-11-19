@@ -6,7 +6,8 @@ services:
     ports:
       - '3000:3000'
     volumes: 
-      - ./:/usr/app
+      - ./:/app
+      - /app/node_modules
 
   db:
     image: mysql:8.0.30
