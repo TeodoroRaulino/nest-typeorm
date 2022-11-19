@@ -1,16 +1,8 @@
-import { Global, Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-@Global()
+import { Module } from '@nestjs/common';
+import { databaseProviders } from './database.providers';
+
 @Module({
-imports: [
-  TypeOrmModule.forRoot({
-  type: 'mysql',
-  host: 'db',
-  port: 3306,
-  username: 'user',
-  password: 'password',
-  database: 'db',
-  autoLoadEntities: true,
-  synchronize: true}),
-  ]})
+  providers: [...databaseProviders],
+  exports: [...databaseProviders],
+})
 export class DatabaseModule {}
