@@ -11,8 +11,8 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
     ) {}
-  
-  login(user: User) {
+
+  async login(user: User) {
     const payload: UserPayload = {
       sub: user.id,
       name: user.name,
@@ -29,20 +29,14 @@ export class AuthService {
   async validateUser(email: string, password: string) {
     const user = await this.userService.findByEmail(email)
 
-    if(user) {
-      if(password = user.password){
-        return {
-          ...user,
-          password:undefined
-        }
+    if(user && password === user.password){
+      const { password, ...result } = user;
+      return {
+        ...user,
+        password:undefined
       }
-      // if(isPasswordValid) {
-      //   return {
-      //     ...user,
-      //     password:undefined
-      //   }
-      // }
-    }
+      }
     throw new Error('Email ou senha não corresponde')
   }
+
 }

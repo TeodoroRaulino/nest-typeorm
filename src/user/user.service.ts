@@ -19,15 +19,6 @@ export class UserService {
     user.password = createUserDto.password
 
     this.userRepository.save(user)
-    .then((result) => {return 'Usuário cadastrado!'})
-    .catch((error) => {
-      if (/(email)[\s\S]+(already exists)/.test(error.detail)) {
-        throw new BadRequestException(
-          'Account with this email already exists.',
-        )
-      }
-      return error
-    })
   }
 
   async findAll(): Promise<User[]> {
@@ -46,7 +37,7 @@ export class UserService {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} user`;
   }
 }
