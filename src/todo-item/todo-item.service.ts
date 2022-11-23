@@ -12,10 +12,9 @@ export class TodoItemService {
   ) {}
 
   create(createTodoItemDto: CreateTodoItemDto) {
-    let todoItem = new TodoItem()
-    todoItem.description = createTodoItemDto.description
-    todoItem.completed = createTodoItemDto.completed
-    todoItem.priority = createTodoItemDto.priority
+    const todoItem = {
+      ...createTodoItemDto
+    }
     
     this.todoItemRepository.save(todoItem)
   }

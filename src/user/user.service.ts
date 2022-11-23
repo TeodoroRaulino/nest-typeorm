@@ -29,15 +29,15 @@ export class UserService {
     return this.userRepository.findOneBy( {email} )
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) {
+    return this.userRepository.findOneBy( {id} )
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    return await this.userRepository.update(id, updateUserDto)
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.userRepository.delete({ id })
   }
 }

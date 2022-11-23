@@ -25,8 +25,8 @@ export class TodoListService {
     return this.todoListRepository.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} todoList`;
+  async findOne(id: number): Promise<TodoList> {
+    return await this.todoListRepository.findOneBy( {id} )
   }
 
   update(id: number, updateTodoListDto: UpdateTodoListDto) {
