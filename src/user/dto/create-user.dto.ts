@@ -7,7 +7,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class CreateUserDto extends User {
+export class CreateUserDto {
   @IsEmail()
   email: string;
 

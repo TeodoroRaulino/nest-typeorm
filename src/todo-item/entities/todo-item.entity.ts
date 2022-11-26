@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
 import { TodoList } from 'src/todo-list/entities/todo-list.entity';
 
 @Entity()
@@ -16,5 +16,5 @@ export class TodoItem {
   completed: boolean;
   
   @ManyToOne(() => TodoList, (todoList) => todoList.todoItems, { eager: true })
-  todoListId = TodoList
+  todoList = TodoList
  }

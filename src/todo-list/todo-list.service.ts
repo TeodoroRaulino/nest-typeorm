@@ -6,9 +6,6 @@ import { TodoList } from './entities/todo-list.entity';
 
 @Injectable()
 export class TodoListService {
-  find(): TodoList[] | PromiseLike<TodoList[]> {
-    throw new Error('Method not implemented.');
-  }
   constructor(
     @Inject('TODOLIST_REPOSITORY')
     private todoListRepository: Repository<TodoList>,
@@ -25,15 +22,15 @@ export class TodoListService {
     return this.todoListRepository.find()
   }
 
-  async findOne(id: number): Promise<TodoList> {
-    return await this.todoListRepository.findOneBy( {id} )
+  async findOne(id: number) {
+    return await this.todoListRepository.findOneBy({ id: id})
   }
 
-  update(id: number, updateTodoListDto: UpdateTodoListDto) {
-    return `This action updates a #${id} todoList`;
+  async update(id: number, updateTodoListDto: UpdateTodoListDto) {
+    return this.todoListRepository.update(id, updateTodoListDto)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} todoList`;
+  async remove(id: number) {
+    return await this.todoListRepository.delete({ id })
   }
 }

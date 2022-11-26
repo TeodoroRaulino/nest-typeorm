@@ -3,7 +3,6 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -30,7 +29,7 @@ export class UserService {
   }
 
   async findOne(id: number) {
-    return this.userRepository.findOneBy( {id} )
+    return this.userRepository.findOneBy({ id })
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
