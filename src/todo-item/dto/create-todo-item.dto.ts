@@ -1,10 +1,12 @@
-import { TodoItem } from '../entities/todo-item.entity';
 import {
   IsString,
   IsBoolean,
+  IsNumber,
+  IsNotEmpty,
 } from 'class-validator';
+import { TodoList } from 'src/todo-list/entities/todo-list.entity';
 
-export class CreateTodoItemDto extends TodoItem{
+export class CreateTodoItemDto{
   @IsString()
   description: string;
   
@@ -14,4 +16,7 @@ export class CreateTodoItemDto extends TodoItem{
   @IsBoolean()
   completed: boolean;
 
+  @IsNumber()
+  @IsNotEmpty()
+  todoList: typeof TodoList;
 }

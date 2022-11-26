@@ -8,7 +8,7 @@ export class TodoItemController {
   constructor(private readonly todoItemService: TodoItemService) {}
 
   @Post()
-  create(@Body() createTodoItemDto: CreateTodoItemDto) {
+  async create(@Body() createTodoItemDto: CreateTodoItemDto) {
     return this.todoItemService.create(createTodoItemDto);
   }
 

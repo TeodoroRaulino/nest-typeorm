@@ -7,7 +7,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class CreateUserDto extends User {
+export class CreateUserDto {
   @IsEmail()
   email: string;
 
@@ -15,7 +15,7 @@ export class CreateUserDto extends User {
   @MinLength(6)
   @MaxLength(15)
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z])(?=.*[$*&@#]).*$/, {
-    message: 'password too weak',
+    message: 'Senha precisa de uma letra maiúscula, um caractere especial, pelo menos 6 caracteres e até 15 caracteres',
   })
   password: string;
 

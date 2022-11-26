@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
-import * as bcrypt from 'bcrypt';
 import { User } from 'src/user/entities/user.entity';
 import { UserPayload } from './models/UserPayload';
 import { JwtService } from '@nestjs/jwt';
@@ -11,8 +10,8 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
     ) {}
-  
-  login(user: User) {
+
+  async login(user: User) {
     const payload: UserPayload = {
       sub: user.id,
       name: user.name,
@@ -29,20 +28,14 @@ export class AuthService {
   async validateUser(email: string, password: string) {
     const user = await this.userService.findByEmail(email)
 
-    if(user) {
-      if(password = user.password){
-        return {
-          ...user,
-          password:undefined
-        }
+    if(user && password === user.password){
+      const { password, ...result } = user;
+      return {
+        ...user,
+        password:undefined
       }
-      // if(isPasswordValid) {
-      //   return {
-      //     ...user,
-      //     password:undefined
-      //   }
-      // }
-    }
+      }
     throw new Error('Email ou senha não corresponde')
   }
+
 }

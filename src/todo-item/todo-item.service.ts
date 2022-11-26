@@ -1,4 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
+import { TodoListService } from 'src/todo-list/todo-list.service';
 import { Repository } from 'typeorm';
 import { CreateTodoItemDto } from './dto/create-todo-item.dto';
 import { UpdateTodoItemDto } from './dto/update-todo-item.dto';
@@ -9,15 +10,16 @@ export class TodoItemService {
   constructor(
     @Inject('TODOITEM_REPOSITORY')
     private todoItemRepository: Repository<TodoItem>,
+    private todoListService: TodoListService
   ) {}
 
-  create(createTodoItemDto: CreateTodoItemDto) {
-    let todoItem = new TodoItem()
-    todoItem.description = createTodoItemDto.description
-    todoItem.completed = createTodoItemDto.completed
-    todoItem.priority = createTodoItemDto.priority
-    
-    this.todoItemRepository.save(todoItem)
+  async create(createTodoItemDto: CreateTodoItemDto) {
+    const list = await this.todoListService.findOne(+createTodoItemDto.todoList)
+
+    if(list){
+      const todoItem = { ...createTodoItemDto}
+      await this.todoItemRepository.save(todoItem)
+    }
   }
 
   async findAll(): Promise<TodoItem[]> {
@@ -25,15 +27,15 @@ export class TodoItemService {
   }
 
 
-  findOne(id: number) {
-    return `This action returns a #${id} todoItem`;
+  async findOne(id: number) {
+    return this.todoItemRepository.findOneBy({ id })
   }
 
-  update(id: number, updateTodoItemDto: UpdateTodoItemDto) {
-    return `This action updates a #${id} todoItem`;
+  async update(id: number, updateTodoItemDto: UpdateTodoItemDto) {
+    return await this.todoItemRepository.update(id, updateTodoItemDto)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} todoItem`;
+  async remove(id: number) {
+    return this.todoItemRepository.delete({ id })
   }
 }

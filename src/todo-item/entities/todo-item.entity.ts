@@ -15,7 +15,6 @@ export class TodoItem {
   @Column({default: false})
   completed: boolean;
   
-  @ManyToOne(() => TodoList, todoList => todoList.todoItems)
+  @ManyToOne(() => TodoList, (todoList) => todoList.todoItems, { eager: true })
   todoList = TodoList
-
-}
+ }
