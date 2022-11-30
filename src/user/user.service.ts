@@ -27,6 +27,16 @@ export class UserService {
   async findByEmail(email: string){
     return this.userRepository.findOneBy( {email} )
   }
+  
+  async findList(email: string) {
+    const userMail = await this.findByEmail(email)
+    if(userMail){
+      return this.userRepository.createQueryBuilder('users')
+      .leftJoinAndSelect('users.todoLists', 'todoLists')
+      .where("users.id = :id", {id: +userMail.id})
+      .getMany()
+    }
+  }
 
   async findOne(id: number) {
     return this.userRepository.findOneBy({ id })

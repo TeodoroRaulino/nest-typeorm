@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { TodoList } from 'src/todo-list/entities/todo-list.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
 
 @Entity()
 export class User {
@@ -13,4 +14,7 @@ export class User {
 
   @Column()
   name: string;
+
+  @OneToMany(() => TodoList, todoLists => todoLists.users)
+  todoLists: TodoList[]
 }

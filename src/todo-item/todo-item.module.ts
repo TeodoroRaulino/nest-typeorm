@@ -6,6 +6,9 @@ import { todoItemProviders } from './todoItem.providers';
 import { TodoListService } from 'src/todo-list/todo-list.service';
 import { TodoListController } from 'src/todo-list/todo-list.controller';
 import { todoListProviders } from 'src/todo-list/todoList.providers';
+import { userProviders } from 'src/user/user.providers';
+import { UserService } from 'src/user/user.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [DatabaseModule],
@@ -13,8 +16,11 @@ import { todoListProviders } from 'src/todo-list/todoList.providers';
   providers: [
     ...todoItemProviders,
     ...todoListProviders,
+    ...userProviders,
     TodoItemService,
-    TodoListService
+    TodoListService,
+    UserService,
+    JwtService
   ]
 })
 export class TodoItemModule {}
