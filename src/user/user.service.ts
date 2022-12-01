@@ -12,31 +12,42 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    let user = new User()
-    user.email = createUserDto.email
-    user.name = createUserDto.name
-    user.password = createUserDto.password
+    // createUserDto.password = this.cryptographyService.encryptAESfunction(
+    //   createUserDto.password,
+    // );
+    const user = { ...createUserDto };
 
-    this.userRepository.save(user)
+    this.userRepository.save(user);
   }
 
   async findAll(): Promise<User[]> {
-    return this.userRepository.find()
+    return this.userRepository.find();
   }
 
-  async findByEmail(email: string){
-    return this.userRepository.findOneBy( {email} )
+  async findByEmail(email: string) {
+    return this.userRepository.findOneBy({ email });
+  }
+
+  async findList(email: string) {
+    const userMail = await this.findByEmail(email);
+    if (userMail) {
+      return this.userRepository
+        .createQueryBuilder('users')
+        .leftJoinAndSelect('users.todoLists', 'todoLists')
+        .where('users.id = :id', { id: userMail.id })
+        .getMany();
+    }
   }
 
   async findOne(id: number) {
-    return this.userRepository.findOneBy({ id })
+    return this.userRepository.findOneBy({ id });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    return await this.userRepository.update(id, updateUserDto)
+    return await this.userRepository.update(id, updateUserDto);
   }
 
   async remove(id: number) {
-    return this.userRepository.delete({ id })
+    return this.userRepository.delete({ id });
   }
 }

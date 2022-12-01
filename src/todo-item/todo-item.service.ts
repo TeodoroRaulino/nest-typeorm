@@ -26,6 +26,9 @@ export class TodoItemService {
     return this.todoItemRepository.find()
   }
 
+  async findItem(id: number): Promise<TodoItem[]> {
+    return this.todoItemRepository.findBy({id})
+  }
 
   async findOne(id: number) {
     return this.todoItemRepository.findOneBy({ id })
