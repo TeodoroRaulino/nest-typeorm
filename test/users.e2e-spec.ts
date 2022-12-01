@@ -3,22 +3,24 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 
-describe('AppController (e2e)', () => {
-  let app: INestApplication;
+describe('UserController E2E Test', () => {
+  let app: INestApplication
 
-  beforeEach(async () => {
+  beforeAll(async() => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();
-  });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
-  });
-});
+    it('Create user', () => {
+      return request(app.getHttpServer()).post('/user')
+      .send({
+        name: 'Teste',
+        email: 'teste@ufc.br',
+        password: '1passWord@'
+      }).expect(201)
+    })
+  })
+})
