@@ -8,6 +8,8 @@ services:
     volumes: 
       - ./:/app
       - /app/node_modules
+    command: sh -c "npm run test:e2e list.e2e-spec.ts --watch"
+
 
   db:
     image: mysql:8.0.30

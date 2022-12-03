@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { AppModule } from '../src/app.module';
 
-describe('UserController E2E Test', () => {
+describe('AuthController E2E Test', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
@@ -15,37 +15,24 @@ describe('UserController E2E Test', () => {
     await app.init();
   });
   describe('Creating new users post', () => {
-    it('Create user', () => {
+    it('Login', () => {
       return request(app.getHttpServer())
-        .post('/user')
+        .post('/login')
         .send({
-          name: 'Teste',
           email: 'testet@ufc.br',
           password: '1passWord@',
         })
-        .expect(201);
+        .expect(200);
     });
 
-    it('Create user failed invalid email', () => {
+    it('Login failed', () => {
       return request(app.getHttpServer())
-        .post('/user')
+        .post('/login')
         .send({
-          name: 'Teste',
-          email: 'teste',
-          password: '1passWord@',
+          email: 'testet@ufc.br',
+          password: '1passWor',
         })
-        .expect(400);
-    });
-
-    it('Create user failed invalid password', () => {
-      return request(app.getHttpServer())
-        .post('/user')
-        .send({
-          name: 'Teste',
-          email: 'teste@ufc.br',
-          password: 'passWor',
-        })
-        .expect(400);
+        .expect(401);
     });
   });
 });

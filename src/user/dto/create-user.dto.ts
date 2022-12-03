@@ -14,9 +14,13 @@ export class CreateUserDto {
   @IsString()
   @MinLength(6)
   @MaxLength(15)
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z])(?=.*[$*&@#]).*$/, {
-    message: 'Senha precisa de uma letra maiúscula, um caractere especial, pelo menos 6 caracteres e até 15 caracteres',
-  })
+  @Matches(
+    /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[$*&@#]).*$/,
+    {
+      message:
+        'Senha fraca. Precisa conter pelo menos um número, uma letra maiúscula, uma letra minúscula, um caracterer especial e ter entre 6 e 15 caracteres',
+    },
+  )
   password: string;
 
   @IsString()
